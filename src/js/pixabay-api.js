@@ -7,37 +7,66 @@ import SimpleLightbox from "simplelightbox";
 // Додатковий імпорт стилів
 import "simplelightbox/dist/simple-lightbox.min.css";
 
+import { createMarkup } from "./render-functions";
+
 const ourForm = document.querySelector(".form");
-const KEY = '42515741-a33332df4257bc0cfcc74fb38';
-const pixabayUrl = 'https://pixabay.com/api/'; 
+const button = document.querySelector(".button");
+const paramPixabay = {
+    url : "https://pixabay.com/api/",
+    KEY : "42515741-a33332df4257bc0cfcc74fb38",
+    q : "",
+    image_type : "photo",
+    orientation : "horizontal",
+    safesearch : true,
+}
 
 ourForm.addEventListener("submit", getPhoto);
 
 function getPhoto(event) {
+    galleryImg.innerHTML = "";
     event.preventDefault();
-    const userSearch = ourForm.search.value;
-    console.log(userSearch);
-    fetch(`${pixabayUrl}?key=${KEY}&q=${userSearch}&image_type=photo&orientation=horizontal&safesearch=true`)
+    paramPixabay.q = event.target.search.value.trim();
+
+    if (paramPixabay.q === "") {
+        button.disabled = true;
+        iziToast.warning({
+                title: "Look at me",
+                message: `Ви не ввели що треба шукати`,
+                messageColor: 'black',
+                messageSize: '16',
+                backgroundColor: 'orange',
+                theme: 'dark',
+                position: 'topRight',
+            });
+    } else {
+    button.disabled = false;
+        fetch(`${paramPixabay.url}?key=${paramPixabay.KEY}&q=${paramPixabay.q}&image_type=${paramPixabay.image_type}&orientation=${paramPixabay.orientation}&safesearch=${paramPixabay.safesearch}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(response.status);
             }
             return response.json();
         })
-        .then(date => {
-            console.log(date);
+        .then(data => {
+            if (data.hits.length === 0 ) {
+                return iziToast.error({
+                title: 'Error',
+                message: `Sorry, there are no images matching your search query. Please try again!`,
+                messageColor: 'white',
+                messageSize: '16',
+                backgroundColor: 'red',
+                theme: 'dark',
+                position: 'topRight',
+            });
+            } else {
+                createMarkup(data);
+            }
         })
         .catch(error => {
             console.log(error);
+        })
+        .finally(() => {
+            ourForm.reset();
         });
+    };
 };
-
-// https://pixabay.com/api/?key=42515741-a33332df4257bc0cfcc74fb38&q=yellow+flowers&image_type=photo
-
-// Список параметрів рядка запиту, які тобі обов'язково необхідно вказати:
-
-// key — твій унікальний ключ доступу до API.
-// q — слово для пошуку. Те, що буде вводити користувач.
-// image_type — тип зображення. Потрібні тільки фотографії, тому постав значення photo.
-// orientation — орієнтація фотографії. Постав значення horizontal.
-// safesearch — фільтр за віком. Постав значення true.
