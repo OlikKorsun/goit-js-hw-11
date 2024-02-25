@@ -6,9 +6,15 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 const galleryImg = document.querySelector(".gallery");
 let htmlListOfGallery = ``;
 
+// експортуємо створену функцію createMarkup щоб можна було її вставити в pixabay.js
 export function createMarkup(data) {
+  // обнуляємо розмітку сторінки якщо там є якісь попередні дані
     htmlListOfGallery = "";
     galleryImg.innerHTML = htmlListOfGallery;
+  // відмальовка розмітки з картинками, 
+  // де data - сам об'єкт, 
+  // hits - масив у ньому який містить потрібні дані
+  // largeImageUrl, tags, likes - потрібні дані
     for (let i = 0; i < data.hits.length; i++) {
         htmlListOfGallery += `<li class="gallery-item">
          <a class="gallery-link" href="${data.hits[i].largeImageURL}">
@@ -35,9 +41,9 @@ export function createMarkup(data) {
         </ul>
         </li>`
     }
-
+    // відмальовуємо за раз все що сформували
     galleryImg.innerHTML = htmlListOfGallery;
-
+    // відкривашка великих красивих картинок
     const lightbox = new SimpleLightbox('.gallery-item a', {
             captionsData: "alt",
             captionPosition: "bottom",
