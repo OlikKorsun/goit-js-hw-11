@@ -1,2 +1,25 @@
-import"./assets/vendor-db7463ae.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const c of t.addedNodes)c.tagName==="LINK"&&c.rel==="modulepreload"&&s(c)}).observe(document,{childList:!0,subtree:!0});function o(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function s(e){if(e.ep)return;e.ep=!0;const t=o(e);fetch(e.href,t)}})();const i=document.querySelector(".form"),l="42515741-a33332df4257bc0cfcc74fb38",u="https://pixabay.com/api/";i.addEventListener("submit",a);function a(n){n.preventDefault();const r=i.search.value;console.log(r),fetch(`${u}?key=${l}&q=${r}&image_type=photo&orientation=horizontal&safesearch=true`).then(o=>{if(!o.ok)throw new Error(o.status);return o.json()}).then(o=>{console.log(o)}).catch(o=>{console.log(o)})}
+import{S as g,i as c}from"./assets/vendor-5b791d57.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))n(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const a of o.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&n(a)}).observe(document,{childList:!0,subtree:!0});function r(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerPolicy&&(o.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?o.credentials="include":e.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function n(e){if(e.ep)return;e.ep=!0;const o=r(e);fetch(e.href,o)}})();const u=document.querySelector(".gallery");let l="";function f(s){l="",u.innerHTML=l;for(let r=0;r<s.hits.length;r++)l+=`<li class="gallery-item">
+         <a class="gallery-link" href="${s.hits[r].largeImageURL}">
+         <img class="gallery-image"
+                src="${s.hits[r].webformatURL}"
+                alt="${s.hits[r].tags}"/> </a>
+        <ul class="stat">
+          <li class="detals-stat">
+           <h2 class="description">Likes</h2>
+           <p class="stat-value">${s.hits[r].likes}</p>
+          </li>
+          <li class="detals-stat">
+           <h2 class="description">Views</h2>
+           <p class="stat-value">${s.hits[r].views}</p>
+          </li>
+          <li class="detals-stat">
+           <h2 class="description">Comments</h2>
+           <p class="stat-value">${s.hits[r].comments}</p>
+          </li>
+          <li class="detals-stat">
+           <h2 class="description">Downloads</h2>
+           <p class="stat-value">${s.hits[r].downloads}</p>
+          </li>
+        </ul>
+        </li>`;u.innerHTML=l,new g(".gallery-item a",{captionsData:"alt",captionPosition:"bottom",captionDelay:250}).refresh()}const m=document.querySelector(".form"),h=document.querySelector(".button"),i={url:"https://pixabay.com/api/",KEY:"42515741-a33332df4257bc0cfcc74fb38",q:"",image_type:"photo",orientation:"horizontal",safesearch:!0};m.addEventListener("submit",p);function p(s){galleryImg.innerHTML="",s.preventDefault(),i.q=s.target.search.value.trim(),i.q===""?(h.disabled=!0,c.warning({title:"Look at me",message:"Ви не ввели що треба шукати",messageColor:"black",messageSize:"16",backgroundColor:"orange",theme:"dark",position:"topRight"})):(h.disabled=!1,fetch(`${i.url}?key=${i.KEY}&q=${i.q}&image_type=${i.image_type}&orientation=${i.orientation}&safesearch=${i.safesearch}`).then(t=>{if(!t.ok)throw new Error(t.status);return t.json()}).then(t=>{if(t.hits.length===0)return c.error({title:"Error",message:"Sorry, there are no images matching your search query. Please try again!",messageColor:"white",messageSize:"16",backgroundColor:"red",theme:"dark",position:"topRight"});f(t)}).catch(t=>{console.log(t)}).finally(()=>{m.reset()}))}
 //# sourceMappingURL=commonHelpers.js.map
