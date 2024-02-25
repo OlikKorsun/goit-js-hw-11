@@ -3,8 +3,8 @@ import SimpleLightbox from "simplelightbox";
 // Додатковий імпорт стилів
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-const galleryImg = document.querySelector(".gallery");
-let htmlListOfGallery = ``;
+export const galleryImg = document.querySelector(".gallery");
+export let htmlListOfGallery = "";
 
 // експортуємо створену функцію createMarkup щоб можна було її вставити в pixabay.js
 export function createMarkup(data) {
@@ -41,15 +41,18 @@ export function createMarkup(data) {
         </ul>
         </li>`
     }
-    // відмальовуємо за раз все що сформували
-    galleryImg.innerHTML = htmlListOfGallery;
+
+  // відмальовуємо за раз все що сформували
+  galleryImg.innerHTML = htmlListOfGallery;
+  
+  lightbox.refresh();
+  
+}
+
     // відкривашка великих красивих картинок
     const lightbox = new SimpleLightbox('.gallery-item a', {
             captionsData: "alt",
             captionPosition: "bottom",
             captionDelay: 250,
     });
-
-    lightbox.refresh();
-}
 
